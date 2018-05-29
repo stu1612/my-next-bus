@@ -15,8 +15,8 @@ export default function DepartureCard({ lineNumber, departures, currentTime }) {
   function remainingSeconds(departure) {
     return Math.floor((new Date(departure) - currentTime) / 1000);
   }
-
-  let secondsToNextBus = departures.map(remainingSeconds).find(s => (s >= -SECONDS_TO_KEEP_AFTER_DEPARTURE));
+  console.log(departures)
+  let secondsToNextBus = departures[0].map(remainingSeconds).find(s => (s >= -SECONDS_TO_KEEP_AFTER_DEPARTURE));
   let minutes = clampBelow(Math.floor(secondsToNextBus / 60 + 1), 0);
   let showArcs = minutes > 0 && minutes <= 3;
 
@@ -28,7 +28,8 @@ export default function DepartureCard({ lineNumber, departures, currentTime }) {
     <div className="col-sm-2">
       <div className="card" style={cardStyle}>
         <div className="card-body" style={cardBodyStyle}>
-          <h3 className="card-title" style={cardTitleStyle}>Line {lineNumber}</h3>
+        {lineNumber.split(',')[1].split('via')[0]}
+          <h3 className="card-title" style={cardTitleStyle}>Line {lineNumber.split(',')[0]}</h3>
           {
             showArcs
               ? <RemainingTimeArcs t={secondsToNextBus} minutes={minutes} />
